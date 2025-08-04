@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rutu's portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../scripts/text.js"></script>
+    <script src="../scripts/flip.js"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
+    <style>
+        body {
+            background-image: radial-gradient(#eee 1px, transparent 1px);
+            background-size: 24px 24px;
+            background-position: top left;
+            font-family: monospace;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="../css/d3-stuff.css">
+  </head>
+
+  <body class="bg-white text-black">
+
+
+    <div class="pt-8 pl-16 pr-16 pb-16">
+
+        <section class="flex flex-col md:flex-row gap-2 pb-6"> 
+            <div class="flex flex-col md:w-1/3">
+            </div>
+            <div class="flex flex-col md:w-1/3 items-center">
+                    <h1 class="text-4xl">
+                        Rutu's Blog
+                    </h1>
+                    <p class="text-green-500">
+                        <a href="https://me.rutu-sh.com" target="_blank">Website</a> | <a href="https://github.com/rutu-sh" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/in/rutu-sh/" target="_blank">LinkedIn</a> 
+                    </p>
+            </div>
+            <div class="flex flex-col md:w-1/3 items-end pr-8">
+                <img src="../assets/normalrutu.svg" alt="Rutu" class="w-20 object-contain" />
+            </div>
+        </section>
+
+        <hr>
+
+        <section class="flex flex-col md:flex-row gap-2 pb-6"> 
+            <div class="flex flex-col md:w-1/5"></div> 
+            <div class="flex flex-col md:w-3/5">
+                <h1 class="text-4xl pt-6 text-center">
+                    Using Nvidia GPUs with Kubernetes
+                </h1>
+                <h2 class="text-2xl text-gray-500 text-center">
+                    On-prem AI Infrastructure series
+                </h2>
+                <div class="flex space-x-4 items-center justify-center pt-2">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes Icon" class="h-6 w-auto" />
+                    <svg  class="h-6 w-auto" fill="#76B900" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>NVIDIA</title><path d="M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z"/></svg>
+                    <svg class="h-6 w-auto" fill="#575757" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>containerd</title><path d="M3.629 0v24H20.37V0zM17.59 21.208H6.421V10.604h7.812V6.692h3.346v14.516zm-7.823-7.812h4.466v5.02H9.767z"/></svg>
+                </div>
+                <h2 class="text-sm text-black text-center">
+                    3 August 2025
+                </h2>
+                <div class="pt-6">
+                    <p class="text-base">
+                        This article series is dedicated to advancing research in Kubernetes and AI. 
+                        Setting up GPU allocation for Kubernetes can be tricky, 
+                        this article takes you through the process of creating a Kubernetes cluster that can allocate GPUs to workloads.  
+                    </p>
+                </div>
+
+                <h1 class="text-2xl pt-8 underline">
+                    My setup
+                </h1>
+                
+                <p class="text-base pt-6">
+                    I am using <a href="https://cloudlab.us" class="underline text-blue-500">cloudlab</a> for the purpose of this experiment. 
+                    Using primarily two types of nodes: 
+
+                    <ul class="p-4 text-base text-justify">
+                        <li>
+                            <b>control-plane:</b> 1 node of type c220g2 running Ubuntu:22.04
+                            <div class="pt-4 pl-16 bg-gray-100">
+                                <pre>
+CPU     Two Intel E5-2660 v3 10-core CPUs at 2.60 GHz (Haswell EP)
+RAM     160GB ECC Memory (10x 16 GB DDR4 2133 MHz dual rank RDIMMs)
+Disk    One Intel DC S3500 480 GB 6G SATA SSDs
+Disk    Two 1.2 TB 10K RPM 6G SAS SFF HDDs
+NIC     Dual-port Intel X520 10Gb NIC (PCIe v3.0, 8 lanes) (both ports available for experiment use)
+NIC     Onboard Intel i350 1Gb
+                                </pre>
+                            </div>
+                        </li>
+                        <li class="pt-4">
+                            <b>data-plane:</b> 2 node of type c240g5 ( for GPU ) running Ubuntu:22.04
+                            <br>
+                            <div class="pt-4 pl-16 bg-gray-100">
+                                <pre>
+CPU     Two Intel Xeon Silver 4114 10-core CPUs at 2.20 GHz
+RAM     192GB ECC DDR4-2666 Memory
+Disk    One 1 TB 7200 RPM 6G SAS HDs
+Disk    One Intel DC S3500 480 GB 6G SATA SSD
+GPU     One NVIDIA 12GB PCI P100 GPU
+NIC     Dual-port Mellanox 25Gb NIC (PCIe v3.0, 8 lanes) (both ports available for experiment use)
+NIC     Onboard Intel i350 1Gb
+                                </pre>
+                            </div>
+                        </li>
+                    </ul>
+                </p>
+
+
+                <p class="text-base">
+                    All the nodes are connected to a link and their IPs are: 
+                    <pre class="pt-4 pl-16">
+master      192.168.1.1
+worker1     192.168.1.2
+worker2     192.168.1.3
+                    </pre>
+                </p>
+
+                <h1 class="text-2xl pt-4 underline">
+                    Installing Nvidia Drivers
+                </h1>               
+
+                <p class="text-base pt-4">
+                    This is the first and most important step to be done on your <b>GPU nodes.</b> This helps the <span class="text-pink-400">nvidia-container-runtime</span> run containers with GPUs.
+                    Using the nvidia-container-runtime is not advised for your control plane nodes, so you can skip this step for your master node. 
+                    <br>
+                    <br>
+                    Find the version of Nvidia drivers for your graphics card on <a href="https://www.nvidia.com/en-us/drivers/" class="underline text-blue-500" target="_blank">Nvidia's website.</a>
+                    The driver version for my setup is <span class="text-pink-400">nvidia-driver-575.</span>
+                </p>
+
+
+                <p class="pt-4 text-base">
+                    Now run the commands as shown below (ref: <a href="https://github.com/oddmario/NVIDIA-Ubuntu-Driver-Guide" target="_blank" class="underline text-blue-500">github.com/oddmario</a>)
+                </p>
+
+                <p class="pt-4 text-base">
+                    If you had previously installed Nvidia drivers and want to start fresh refer to 
+                    <a href="https://github.com/oddmario/NVIDIA-Ubuntu-Driver-Guide?tab=readme-ov-file#driver-installation" target="_blank" class="underline text-blue-500">step 1 on oddmario's repository.</a>
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group ">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo apt update
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base">
+                    Install build dependencies 
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo apt install pkg-config libglvnd-dev dkms build-essential libegl-dev libegl1 libgl-dev libgl1 libgles-dev libgles1 libglvnd-core-dev libglx-dev libopengl-dev gcc make 
+                        </code>
+                        </pre>
+                </div>
+ 
+                <p class="text-base">
+                    Add repository and update
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo add-apt-repository ppa:graphics-drivers/ppa && sudo apt update 
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base">
+                    Install drivers. Change the driver version based on your spec, I'm installing <span class="text-pink-400">nvidia-driver-575.</span>
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo apt install nvidia-driver-575
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base">
+                    Reboot your system.
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo reboot
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base">
+                    Check if installation was successful by running the following command
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+nvidia-smi
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base pb-2">
+                    It should produce the following output
+                </p>
+                <div class="bg-gray-100">
+                    <pre>
+rutu_sh@worker-1:~$ nvidia-smi
+Sun Aug  3 17:23:37 2025
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 575.64.03              Driver Version: 575.64.03      CUDA Version: 12.9     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla P100-PCIE-12GB           Off |   00000000:86:00.0 Off |                    0 |
+| N/A   27C    P0             24W /  250W |       0MiB /  12288MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+                    </pre>
+                </div>
+
+                <p class="text-base pt-4">
+                    Now you have successfully installed Nvidia drivers. Now its time to install <b>containerd.</b>
+                </p>
+
+                <h1 class="text-2xl pt-8 underline">
+                    Installing Containerd
+                </h1>  
+                <p class="text-base pt-4">
+                    Containerd for Ubuntu is managed by Docker, so we'll refer to <a href="https://docs.docker.com/engine/install/ubuntu/" target="_blank" class="underline text-blue-500">their website</a> to install containerd on the system.
+                    <br>
+                    <br>
+                    Remove conflicting packages
+                </p>
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base">
+                    Add GPG key
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base">
+                    Install packages
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base">
+                    To use docker without sudo, run this and login again so that your credentials are re-evaluated.
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo usermod -aG docker $USER
+                        </code>
+                        </pre>
+                </div>
+
+                <h1 class="text-2xl underline">
+                    Installing Nvidia container runtime (on worker nodes)
+                </h1>  
+
+                <p class="text-base pt-4">
+                    The <a href="https://docs.docker.com/engine/install/ubuntu/" target="_blank" class="underline text-blue-500">nvidia-container-runtime</a> 
+                    is a OCI-compatible GPU container runtime that allows you to allocate GPU resources to containers. Install it only on nodes that have GPUs and nvidia-drivers installed. 
+                    This part is referenced from <a href="https://docs.docker.com/engine/install/ubuntu/" target="_blank" class="underline text-blue-500">here.</a> 
+                </p>
+
+                <p class="text-base pt-6">
+                    Update sources
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+                        </code>
+                        </pre>
+                </div>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo apt-get update
+                        </code>
+                        </pre>
+                </div>
+
+                <p class="text-base">
+                    Install nvidia-container-runtime and related tools (update version as required).
+                </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+export NVIDIA_CONTAINER_TOOLKIT_VERSION=1.17.8-1
+  sudo apt-get install -y \
+      nvidia-container-toolkit=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      nvidia-container-toolkit-base=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      libnvidia-container-tools=${NVIDIA_CONTAINER_TOOLKIT_VERSION} \
+      libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}
+                        </code>
+                        </pre>
+                </div>
+
+                <h1 class="text-2xl underline">
+                    Configuring Containerd
+                </h1>  
+                <p class="text-base pt-4">
+                    To get the Nvidia runtime working with Kubelet, it must be the default runtime. 
+                    Now this may cause problem for other control plane components, so we recommend to have <span class="text-pink-400">runc</span> as the default runtime for control plane nodes or nodes without GPUs. 
+                    For data plane nodes with GPU, we use the <span class="text-pink-400">nvidia-container-runtime</span> as default.
+                    <br>
+                    <br>
+                    Based on the type of node, pick the containerd config.
+                </p>
+
+
+            <div id="accordion-open" data-accordion="open" class="pt-8">
+                <h2 id="accordion-open-heading-1">
+                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-open-body-1" aria-expanded="false" aria-controls="accordion-open-body-1">
+                    <span class="flex items-center">GPU nodes</span>
+                    <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                    </svg>
+                    </button>
+                </h2>
+                <div id="accordion-open-body-1" class="hidden" aria-labelledby="accordion-open-heading-1">
+                    <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-toml bg-gray-100">
+disabled_plugins = []
+imports = []
+oom_score = 0
+plugin_dir = ""
+required_plugins = []
+root = "/var/lib/containerd"
+state = "/run/containerd"
+temp = ""
+version = 2
+
+[cgroup]
+  path = ""
+
+[debug]
+  address = ""
+  format = ""
+  gid = 0
+  level = ""
+  uid = 0
+
+[grpc]
+  address = "/run/containerd/containerd.sock"
+  gid = 0
+  max_recv_message_size = 16777216
+  max_send_message_size = 16777216
+  tcp_address = ""
+  tcp_tls_ca = ""
+  tcp_tls_cert = ""
+  tcp_tls_key = ""
+  uid = 0
+
+[metrics]
+  address = ""
+  grpc_histogram = false
+
+[plugins]
+
+  [plugins."io.containerd.gc.v1.scheduler"]
+    deletion_threshold = 0
+    mutation_threshold = 100
+    pause_threshold = 0.02
+    schedule_delay = "0s"
+    startup_delay = "100ms"
+
+  [plugins."io.containerd.grpc.v1.cri"]
+    cdi_spec_dirs = ["/etc/cdi", "/var/run/cdi"]
+    device_ownership_from_security_context = false
+    disable_apparmor = false
+    disable_cgroup = false
+    disable_hugetlb_controller = true
+    disable_proc_mount = false
+    disable_tcp_service = true
+    drain_exec_sync_io_timeout = "0s"
+    enable_cdi = false
+    enable_selinux = false
+    enable_tls_streaming = false
+    enable_unprivileged_icmp = false
+    enable_unprivileged_ports = false
+    ignore_deprecation_warnings = []
+    ignore_image_defined_volumes = false
+    image_pull_progress_timeout = "5m0s"
+    image_pull_with_sync_fs = false
+    max_concurrent_downloads = 3
+    max_container_log_line_size = 16384
+    netns_mounts_under_state_dir = false
+    restrict_oom_score_adj = false
+    sandbox_image = "registry.k8s.io/pause:3.10"
+    selinux_category_range = 1024
+    stats_collect_period = 10
+    stream_idle_timeout = "4h0m0s"
+    stream_server_address = "127.0.0.1"
+    stream_server_port = "0"
+    systemd_cgroup = false
+    tolerate_missing_hugetlb_controller = true
+    unset_seccomp_profile = ""
+
+    [plugins."io.containerd.grpc.v1.cri".cni]
+      bin_dir = "/opt/cni/bin"
+      conf_dir = "/etc/cni/net.d"
+      conf_template = ""
+      ip_pref = ""
+      max_conf_num = 1
+      setup_serially = false
+
+    [plugins."io.containerd.grpc.v1.cri".containerd]
+      default_runtime_name = "runc"
+      disable_snapshot_annotations = true
+      discard_unpacked_layers = false
+      ignore_blockio_not_enabled_errors = false
+      ignore_rdt_not_enabled_errors = false
+      no_pivot = false
+      snapshotter = "overlayfs"
+
+      [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime]
+        base_runtime_spec = ""
+        cni_conf_dir = ""
+        cni_max_conf_num = 0
+        container_annotations = []
+        pod_annotations = []
+        privileged_without_host_devices = false
+        privileged_without_host_devices_all_devices_allowed = false
+        runtime_engine = ""
+        runtime_path = ""
+        runtime_root = ""
+        runtime_type = ""
+        sandbox_mode = ""
+        snapshotter = ""
+
+        [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime.options]
+
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+          base_runtime_spec = ""
+          cni_conf_dir = ""
+          cni_max_conf_num = 0
+          container_annotations = []
+          pod_annotations = []
+          privileged_without_host_devices = false
+          privileged_without_host_devices_all_devices_allowed = false
+          runtime_engine = ""
+          runtime_path = ""
+          runtime_root = ""
+          runtime_type = "io.containerd.runc.v2"
+          sandbox_mode = "podsandbox"
+          snapshotter = ""
+
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            BinaryName = ""
+            CriuImagePath = ""
+            CriuPath = ""
+            CriuWorkPath = ""
+            IoGid = 0
+            IoUid = 0
+            NoNewKeyring = false
+            NoPivotRoot = false
+            Root = ""
+            ShimCgroup = ""
+            SystemdCgroup = true
+          
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+	          runtime_type = "io.containerd.runc.v2"
+            [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+              BinaryName = "nvidia-container-runtime"
+              CriuImagePath = ""
+	            CriuPath = ""
+	            CriuWorkPath = ""
+	            IoGid = 0
+	            IoUid = 0
+	            NoNewKeyring = false
+	            NoPivotRoot = false
+	            Root = ""
+	            ShimCgroup = ""
+	            SystemdCgroup = true
+
+      [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime]
+        base_runtime_spec = ""
+        cni_conf_dir = ""
+        cni_max_conf_num = 0
+        container_annotations = []
+        pod_annotations = []
+        privileged_without_host_devices = false
+        privileged_without_host_devices_all_devices_allowed = false
+        runtime_engine = ""
+        runtime_path = ""
+        runtime_root = ""
+        runtime_type = ""
+        sandbox_mode = ""
+        snapshotter = ""
+
+        [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime.options]
+
+    [plugins."io.containerd.grpc.v1.cri".image_decryption]
+      key_model = "node"
+
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      config_path = ""
+
+      [plugins."io.containerd.grpc.v1.cri".registry.auths]
+
+      [plugins."io.containerd.grpc.v1.cri".registry.configs]
+
+      [plugins."io.containerd.grpc.v1.cri".registry.headers]
+
+      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+
+    [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
+      tls_cert_file = ""
+      tls_key_file = ""
+
+  [plugins."io.containerd.internal.v1.opt"]
+    path = "/opt/containerd"
+
+  [plugins."io.containerd.internal.v1.restart"]
+    interval = "10s"
+
+  [plugins."io.containerd.internal.v1.tracing"]
+
+  [plugins."io.containerd.metadata.v1.bolt"]
+    content_sharing_policy = "shared"
+
+  [plugins."io.containerd.monitor.v1.cgroups"]
+    no_prometheus = false
+
+  [plugins."io.containerd.nri.v1.nri"]
+    disable = true
+    disable_connections = false
+    plugin_config_path = "/etc/nri/conf.d"
+    plugin_path = "/opt/nri/plugins"
+    plugin_registration_timeout = "5s"
+    plugin_request_timeout = "2s"
+    socket_path = "/var/run/nri/nri.sock"
+
+  [plugins."io.containerd.runtime.v1.linux"]
+    no_shim = false
+    runtime = "runc"
+    runtime_root = ""
+    shim = "containerd-shim"
+    shim_debug = false
+
+  [plugins."io.containerd.runtime.v2.task"]
+    platforms = ["linux/amd64"]
+    sched_core = false
+
+  [plugins."io.containerd.service.v1.diff-service"]
+    default = ["walking"]
+    sync_fs = false
+
+  [plugins."io.containerd.service.v1.tasks-service"]
+    blockio_config_file = ""
+    rdt_config_file = ""
+
+  [plugins."io.containerd.snapshotter.v1.aufs"]
+    root_path = ""
+
+  [plugins."io.containerd.snapshotter.v1.blockfile"]
+    fs_type = ""
+    mount_options = []
+    root_path = ""
+    scratch_file = ""
+
+  [plugins."io.containerd.snapshotter.v1.btrfs"]
+    root_path = ""
+
+  [plugins."io.containerd.snapshotter.v1.devmapper"]
+    async_remove = false
+    base_image_size = ""
+    discard_blocks = false
+    fs_options = ""
+    fs_type = ""
+    pool_name = ""
+    root_path = ""
+
+  [plugins."io.containerd.snapshotter.v1.native"]
+    root_path = ""
+
+  [plugins."io.containerd.snapshotter.v1.overlayfs"]
+    mount_options = []
+    root_path = ""
+    sync_remove = false
+    upperdir_label = false
+
+  [plugins."io.containerd.snapshotter.v1.zfs"]
+    root_path = ""
+
+  [plugins."io.containerd.tracing.processor.v1.otlp"]
+
+  [plugins."io.containerd.transfer.v1.local"]
+    config_path = ""
+    max_concurrent_downloads = 3
+    max_concurrent_uploaded_layers = 3
+
+    [[plugins."io.containerd.transfer.v1.local".unpack_config]]
+      differ = ""
+      platform = "linux/amd64"
+      snapshotter = "overlayfs"
+
+[proxy_plugins]
+
+[stream_processors]
+
+  [stream_processors."io.containerd.ocicrypt.decoder.v1.tar"]
+    accepts = ["application/vnd.oci.image.layer.v1.tar+encrypted"]
+    args = ["--decryption-keys-path", "/etc/containerd/ocicrypt/keys"]
+    env = ["OCICRYPT_KEYPROVIDER_CONFIG=/etc/containerd/ocicrypt/ocicrypt_keyprovider.conf"]
+    path = "ctd-decoder"
+    returns = "application/vnd.oci.image.layer.v1.tar"
+
+  [stream_processors."io.containerd.ocicrypt.decoder.v1.tar.gzip"]
+    accepts = ["application/vnd.oci.image.layer.v1.tar+gzip+encrypted"]
+    args = ["--decryption-keys-path", "/etc/containerd/ocicrypt/keys"]
+    env = ["OCICRYPT_KEYPROVIDER_CONFIG=/etc/containerd/ocicrypt/ocicrypt_keyprovider.conf"]
+    path = "ctd-decoder"
+    returns = "application/vnd.oci.image.layer.v1.tar+gzip"
+
+[timeouts]
+  "io.containerd.timeout.bolt.open" = "0s"
+  "io.containerd.timeout.metrics.shimstats" = "2s"
+  "io.containerd.timeout.shim.cleanup" = "5s"
+  "io.containerd.timeout.shim.load" = "5s"
+  "io.containerd.timeout.shim.shutdown" = "3s"
+  "io.containerd.timeout.task.state" = "2s"
+
+[ttrpc]
+  address = ""
+  gid = 0
+  uid = 0
+                        </code>
+                        </pre>
+                </div>
+                    </div>
+                </div>
+
+                <h2 id="accordion-open-heading-3">
+                    <button type="button" class="flex items-center justify-between w-full p-5 font-medium rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-open-body-3" aria-expanded="false" aria-controls="accordion-open-body-3">
+                    <span class="flex items-center">CPU nodes</span>
+                    <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
+                    </svg>
+                    </button>
+                </h2>
+                <div id="accordion-open-body-3" class="hidden" aria-labelledby="accordion-open-heading-3">
+                    <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-toml bg-gray-100">
+disabled_plugins = []
+imports = []
+oom_score = 0
+plugin_dir = ""
+required_plugins = []
+root = "/var/lib/containerd"
+state = "/run/containerd"
+temp = ""
+version = 2
+
+[cgroup]
+  path = ""
+
+[debug]
+  address = ""
+  format = ""
+  gid = 0
+  level = ""
+  uid = 0
+
+[grpc]
+  address = "/run/containerd/containerd.sock"
+  gid = 0
+  max_recv_message_size = 16777216
+  max_send_message_size = 16777216
+  tcp_address = ""
+  tcp_tls_ca = ""
+  tcp_tls_cert = ""
+  tcp_tls_key = ""
+  uid = 0
+
+[metrics]
+  address = ""
+  grpc_histogram = false
+
+[plugins]
+
+  [plugins."io.containerd.gc.v1.scheduler"]
+    deletion_threshold = 0
+    mutation_threshold = 100
+    pause_threshold = 0.02
+    schedule_delay = "0s"
+    startup_delay = "100ms"
+
+  [plugins."io.containerd.grpc.v1.cri"]
+    cdi_spec_dirs = ["/etc/cdi", "/var/run/cdi"]
+    device_ownership_from_security_context = false
+    disable_apparmor = false
+    disable_cgroup = false
+    disable_hugetlb_controller = true
+    disable_proc_mount = false
+    disable_tcp_service = true
+    drain_exec_sync_io_timeout = "0s"
+    enable_cdi = false
+    enable_selinux = false
+    enable_tls_streaming = false
+    enable_unprivileged_icmp = false
+    enable_unprivileged_ports = false
+    ignore_deprecation_warnings = []
+    ignore_image_defined_volumes = false
+    image_pull_progress_timeout = "5m0s"
+    image_pull_with_sync_fs = false
+    max_concurrent_downloads = 3
+    max_container_log_line_size = 16384
+    netns_mounts_under_state_dir = false
+    restrict_oom_score_adj = false
+    sandbox_image = "registry.k8s.io/pause:3.10"
+    selinux_category_range = 1024
+    stats_collect_period = 10
+    stream_idle_timeout = "4h0m0s"
+    stream_server_address = "127.0.0.1"
+    stream_server_port = "0"
+    systemd_cgroup = false
+    tolerate_missing_hugetlb_controller = true
+    unset_seccomp_profile = ""
+
+    [plugins."io.containerd.grpc.v1.cri".cni]
+      bin_dir = "/opt/cni/bin"
+      conf_dir = "/etc/cni/net.d"
+      conf_template = ""
+      ip_pref = ""
+      max_conf_num = 1
+      setup_serially = false
+
+    [plugins."io.containerd.grpc.v1.cri".containerd]
+      default_runtime_name = "runc"
+      disable_snapshot_annotations = true
+      discard_unpacked_layers = false
+      ignore_blockio_not_enabled_errors = false
+      ignore_rdt_not_enabled_errors = false
+      no_pivot = false
+      snapshotter = "overlayfs"
+
+      [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime]
+        base_runtime_spec = ""
+        cni_conf_dir = ""
+        cni_max_conf_num = 0
+        container_annotations = []
+        pod_annotations = []
+        privileged_without_host_devices = false
+        privileged_without_host_devices_all_devices_allowed = false
+        runtime_engine = ""
+        runtime_path = ""
+        runtime_root = ""
+        runtime_type = ""
+        sandbox_mode = ""
+        snapshotter = ""
+
+        [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime.options]
+
+      [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+
+        [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+          base_runtime_spec = ""
+          cni_conf_dir = ""
+          cni_max_conf_num = 0
+          container_annotations = []
+          pod_annotations = []
+          privileged_without_host_devices = false
+          privileged_without_host_devices_all_devices_allowed = false
+          runtime_engine = ""
+          runtime_path = ""
+          runtime_root = ""
+          runtime_type = "io.containerd.runc.v2"
+          sandbox_mode = "podsandbox"
+          snapshotter = ""
+
+          [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+            BinaryName = ""
+            CriuImagePath = ""
+            CriuPath = ""
+            CriuWorkPath = ""
+            IoGid = 0
+            IoUid = 0
+            NoNewKeyring = false
+            NoPivotRoot = false
+            Root = ""
+            ShimCgroup = ""
+            SystemdCgroup = true
+
+      [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime]
+        base_runtime_spec = ""
+        cni_conf_dir = ""
+        cni_max_conf_num = 0
+        container_annotations = []
+        pod_annotations = []
+        privileged_without_host_devices = false
+        privileged_without_host_devices_all_devices_allowed = false
+        runtime_engine = ""
+        runtime_path = ""
+        runtime_root = ""
+        runtime_type = ""
+        sandbox_mode = ""
+        snapshotter = ""
+
+        [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime.options]
+
+    [plugins."io.containerd.grpc.v1.cri".image_decryption]
+      key_model = "node"
+
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      config_path = ""
+
+      [plugins."io.containerd.grpc.v1.cri".registry.auths]
+
+      [plugins."io.containerd.grpc.v1.cri".registry.configs]
+
+      [plugins."io.containerd.grpc.v1.cri".registry.headers]
+
+      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+
+    [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
+      tls_cert_file = ""
+      tls_key_file = ""
+
+  [plugins."io.containerd.internal.v1.opt"]
+    path = "/opt/containerd"
+
+  [plugins."io.containerd.internal.v1.restart"]
+    interval = "10s"
+
+  [plugins."io.containerd.internal.v1.tracing"]
+
+  [plugins."io.containerd.metadata.v1.bolt"]
+    content_sharing_policy = "shared"
+
+  [plugins."io.containerd.monitor.v1.cgroups"]
+    no_prometheus = false
+
+  [plugins."io.containerd.nri.v1.nri"]
+    disable = true
+    disable_connections = false
+    plugin_config_path = "/etc/nri/conf.d"
+    plugin_path = "/opt/nri/plugins"
+    plugin_registration_timeout = "5s"
+    plugin_request_timeout = "2s"
+    socket_path = "/var/run/nri/nri.sock"
+
+  [plugins."io.containerd.runtime.v1.linux"]
+    no_shim = false
+    runtime = "runc"
+    runtime_root = ""
+    shim = "containerd-shim"
+    shim_debug = false
+
+  [plugins."io.containerd.runtime.v2.task"]
+    platforms = ["linux/amd64"]
+    sched_core = false
+
+  [plugins."io.containerd.service.v1.diff-service"]
+    default = ["walking"]
+    sync_fs = false
+
+  [plugins."io.containerd.service.v1.tasks-service"]
+    blockio_config_file = ""
+    rdt_config_file = ""
+
+  [plugins."io.containerd.snapshotter.v1.aufs"]
+    root_path = ""
+
+  [plugins."io.containerd.snapshotter.v1.blockfile"]
+    fs_type = ""
+    mount_options = []
+    root_path = ""
+    scratch_file = ""
+
+  [plugins."io.containerd.snapshotter.v1.btrfs"]
+    root_path = ""
+
+  [plugins."io.containerd.snapshotter.v1.devmapper"]
+    async_remove = false
+    base_image_size = ""
+    discard_blocks = false
+    fs_options = ""
+    fs_type = ""
+    pool_name = ""
+    root_path = ""
+
+  [plugins."io.containerd.snapshotter.v1.native"]
+    root_path = ""
+
+  [plugins."io.containerd.snapshotter.v1.overlayfs"]
+    mount_options = []
+    root_path = ""
+    sync_remove = false
+    upperdir_label = false
+
+  [plugins."io.containerd.snapshotter.v1.zfs"]
+    root_path = ""
+
+  [plugins."io.containerd.tracing.processor.v1.otlp"]
+
+  [plugins."io.containerd.transfer.v1.local"]
+    config_path = ""
+    max_concurrent_downloads = 3
+    max_concurrent_uploaded_layers = 3
+
+    [[plugins."io.containerd.transfer.v1.local".unpack_config]]
+      differ = ""
+      platform = "linux/amd64"
+      snapshotter = "overlayfs"
+
+[proxy_plugins]
+
+[stream_processors]
+
+  [stream_processors."io.containerd.ocicrypt.decoder.v1.tar"]
+    accepts = ["application/vnd.oci.image.layer.v1.tar+encrypted"]
+    args = ["--decryption-keys-path", "/etc/containerd/ocicrypt/keys"]
+    env = ["OCICRYPT_KEYPROVIDER_CONFIG=/etc/containerd/ocicrypt/ocicrypt_keyprovider.conf"]
+    path = "ctd-decoder"
+    returns = "application/vnd.oci.image.layer.v1.tar"
+
+  [stream_processors."io.containerd.ocicrypt.decoder.v1.tar.gzip"]
+    accepts = ["application/vnd.oci.image.layer.v1.tar+gzip+encrypted"]
+    args = ["--decryption-keys-path", "/etc/containerd/ocicrypt/keys"]
+    env = ["OCICRYPT_KEYPROVIDER_CONFIG=/etc/containerd/ocicrypt/ocicrypt_keyprovider.conf"]
+    path = "ctd-decoder"
+    returns = "application/vnd.oci.image.layer.v1.tar+gzip"
+
+[timeouts]
+  "io.containerd.timeout.bolt.open" = "0s"
+  "io.containerd.timeout.metrics.shimstats" = "2s"
+  "io.containerd.timeout.shim.cleanup" = "5s"
+  "io.containerd.timeout.shim.load" = "5s"
+  "io.containerd.timeout.shim.shutdown" = "3s"
+  "io.containerd.timeout.task.state" = "2s"
+
+[ttrpc]
+  address = ""
+  gid = 0
+  uid = 0
+                        </code>
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-base pt-4">
+                Overwrite the file <span class="text-pink-400">/etc/containerd/config.toml</span> with the config you copied from above. 
+                <br>
+                <br>
+                Restart containerd
+            </p>
+
+                <!-- Code block container -->
+                <div class="relative group">
+                    <!-- Tooltip target -->
+                    <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                        <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                        <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                    </button>
+
+                    <!-- Flowbite tooltip -->
+                    <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                <!-- Highlight.js code block -->
+                    <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                        <code class="language-bash bg-gray-100">
+sudo systemctl restart containerd
+                        </code>
+                        </pre>
+                </div>
+
+            <p class="text-base">
+                Verify the status of containerd service using 
+            </p>
+
+                <!-- Code block container -->
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo systemctl status containerd
+                    </code>
+                    </pre>
+            </div>
+
+
+            <h1 class="text-2xl underline">
+                Configuring Kubernetes
+            </h1>  
+            <p class="text-base pt-4">
+                Now lets configure the setup for Kubernetes on all our nodes.
+                <br>
+                <br>
+                Disable swap
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo swapoff -a && sudo sed -i ‘/ swap / s/^/#/’ /etc/fstab
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                Run this to securely add and use external apt repositories.
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo apt-get install -y apt-transport-https ca-certificates curl gpg
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                Download k8s keyring
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+                    </code>
+                    </pre>
+            </div>
+
+            
+            <p class="text-base">
+                Add official kubernetes repository
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list 
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                Install Kubernetes components
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                Enable Kubelet service
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo systemctl enable --now kubelet
+                    </code>
+                    </pre>
+            </div>
+
+            <h1 class="text-2xl underline">
+                Master node setup
+            </h1>  
+            <p class="text-base pt-4">
+                Now we'll configure the master node and initialize the cluster. Run this only on the <b>master node.</b>
+            </p>
+
+            <p class="text-base">
+                Initialize the cluster with <span class="text-pink-400">kubeadm init</span>. 
+                <br>
+                <br>
+                Note that the <span class="text-pink-400">--apiserver-advertise-address</span> advertises the local IP of the master node. 
+                Configure it according to your setup. 
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo kubeadm init --cri-socket=unix:///run/containerd/containerd.sock --pod-network-cidr=192.168.0.0/16 --node-name=master --apiserver-advertise-address=192.168.1.1 
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                Copy Kubeconfig to <span class="text-pink-400">.kube/config</span> on your master node. You can copy this config to your local as well if you advertised the kube api server on a public ip. 
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                Once the master node is initialized, we install <a href="https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#step-2-install-calico" class="underline text-blue-500">Calico CNI.</a>
+
+                <br>
+                <br>
+
+                Run the following command to install the Tigera Operator
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/tigera-operator.yaml 
+                    </code>
+                    </pre>
+            </div>
+            <p class="text-base">
+                And the calico custom resources
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/custom-resources.yaml 
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                To discover GPU resources on the Node, the <a href="https://github.com/NVIDIA/k8s-device-plugin?tab=readme-ov-file#enabling-gpu-support-in-kubernetes" class="underline text-blue-500">k8s-device-plugin for nvidia</a>
+                must be installed. This creates a daemonset, which runs a pod on each node that is responsible for discovering the GPU resources. 
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.17.1/deployments/static/nvidia-device-plugin.yml
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                Get the <span class="text-pink-400">kubeadm join</span> command from the master node.
+           </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo kubeadm token create --print-join-command
+                    </code>
+                    </pre>
+            </div>
+
+
+            <p class="text-base">
+                Copy this command and paste it down somewhere.
+            </p>
+
+
+            <h1 class="text-2xl underline pt-8">
+                Worker node setup
+            </h1>  
+            <p class="text-base pt-4">
+                Now we just have to let the worker node join the Kubernetes cluster.
+
+                <br>
+                <br>
+                Run this on worker1 node
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo {insert join-command} --cri-socket=unix:///run/containerd/containerd.sock --node-name=worker1
+                    </code>
+                    </pre>
+            </div>
+            <p class="text-base">
+                And for worker2
+            </p>
+
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo {insert join-command} --cri-socket=unix:///run/containerd/containerd.sock --node-name=worker2
+                    </code>
+                    </pre>
+            </div>
+
+            <h1 class="text-2xl underline">
+                Verify setup
+            </h1>  
+            <p class="text-base pt-4">
+                Wait for the daemonset pods to be created in each of the nodes (except control plane nodes). Check status with following: 
+            </p>
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+kubectl get po -n kube-system -l name=nvidia-device-plugin-ds 
+                    </code>
+                    </pre>
+            </div>
+            <p class="text-base">
+                On each of the nodes running daemonset pods, restart Kubelet. Now the GPU resources will be discoverable.
+            </p>
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+sudo systemctl restart kubelet 
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                Check if GPU resources are available now. 
+            </p>
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+kubectl describe node worker1 | grep -B 6 -i gpu 
+                    </code>
+                    </pre>
+            </div>
+            <p class="text-base">
+                The GPU resource should be available as <span class="text-pink-400">nvidia.com/gpu.</span>
+
+                <br>
+                <br>
+                Save the following as <span class="text-pink-400">pod.yaml</span> (ref: <a href="" class="underline text-blue-500">nvidia/k8s-device-plugin</a>)
+            </p>
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-yaml bg-gray-100">
+apiVersion: v1
+kind: Pod
+metadata:
+  name: gpu-pod
+spec:
+  restartPolicy: Never
+  containers:
+    - name: cuda-container
+      image: nvcr.io/nvidia/k8s/cuda-sample:vectoradd-cuda12.5.0
+      resources:
+        limits:
+          nvidia.com/gpu: 1 # requesting 1 GPU
+  tolerations:
+  - key: nvidia.com/gpu
+    operator: Exists
+    effect: NoSchedule
+                    </code>
+                    </pre>
+            </div>
+            <p class="text-base">
+                Apply the manifest:
+            </p>
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+kubectl apply -f pod.yaml
+                    </code>
+                    </pre>
+            </div>
+
+            <p class="text-base">
+                View pod logs to verify
+            </p>
+            <div class="relative group">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm">
+                    <code class="language-bash bg-gray-100">
+kubectl logs gpu-pod
+                    </code>
+                    </pre>
+            </div>
+            <p class="text-base">
+                Expected output
+                <br>
+                <br>
+            </p>
+            <div class="bg-gray-100">
+                <pre>
+[Vector addition of 50000 elements]
+Copy input data from the host memory to the CUDA device
+CUDA kernel launch with 196 blocks of 256 threads
+Copy output data from the CUDA device to the host memory
+Test PASSED
+Done
+                </pre>
+            </div>
+
+            <h1 class="text-2xl underline pt-8">
+                Conclusion
+            </h1>
+            <p class="text-base pt-6">
+                This article is completely handcrafted, and the above commands are from days of painstaiking debugging and restarting. 
+                I have lost count of the number of times I had to restart the whole setup and initialize the cluster. 
+                At this point I can setup Kubernetes on anything 😆. 
+                In future articles I will cover the bugs I encountered and solved.  
+                <br>
+                <br>
+                This would not have been possible without the <a href="https://cloudlab.us" class="underline text-blue-500">cloudlab</a>.
+            </p>
+
+
+            <!-- flex div end -->
+            </div> 
+            <div class="flex flex-col md:w-1/5"></div> 
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".copy-btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                const code = button.parentElement.querySelector("code").innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                const tooltip = document.getElementById("tooltip-copy");
+                tooltip.textContent = "Copied!";
+                setTimeout(() => (tooltip.textContent = "Copy to clipboard"), 1500);
+                });
+            });
+            });
+        });
+    </script>
+    <script>hljs.highlightAll();</script>
+</body>
