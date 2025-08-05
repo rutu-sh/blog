@@ -38,7 +38,7 @@
                             Rutu's Blog
                         </h1>
                     </a>                   
-                    <p class="text-green-500">
+                    <p class="text-green-500 pt-1">
                         <a href="https://me.rutu-sh.com" target="_blank">Website</a> | <a href="https://github.com/rutu-sh" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/in/rutu-sh/" target="_blank">LinkedIn</a> 
                     </p>
             </div>
@@ -65,7 +65,7 @@
                     <svg  class="h-6 w-auto" fill="#575757" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>containerd</title><path d="M3.629 0v24H20.37V0zM17.59 21.208H6.421V10.604h7.812V6.692h3.346v14.516zm-7.823-7.812h4.466v5.02H9.767z"/></svg>
                 </div>
                 <h2 class="text-sm text-black text-center pt-2">
-                    3 August 2025
+                    5 August 2025
                 </h2>
                 <div class="pt-6">
                     <p class="text-base">
@@ -1339,7 +1339,7 @@ sudo apt-get install helm</code></pre>
 	--pod-network-cidr=192.168.0.0/16 \
 	--node-name=master \
 	--apiserver-advertise-address=192.168.1.1 \
-	--apiserver-cert-extra-sans=128.105.144.68 \
+	--apiserver-cert-extra-sans={public_ip} \
 	--skip-phases=addon/kube-proxy</code></pre>
             </div>
 
@@ -1450,7 +1450,9 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
                 <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
 
             <!-- Highlight.js code block -->
-                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo {insert join-command} --cri-socket=unix:///run/containerd/containerd.sock --node-name=worker1</code></pre>
+                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo {insert join-command} \
+    --cri-socket=unix:///run/containerd/containerd.sock \
+    --node-name=worker1</code></pre>
             </div>
             <p class="text-base pt-4">
                 And for worker2
@@ -1467,7 +1469,9 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
                 <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
 
             <!-- Highlight.js code block -->
-                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo {insert join-command} --cri-socket=unix:///run/containerd/containerd.sock --node-name=worker2</code></pre>
+                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo {insert join-command} \
+    --cri-socket=unix:///run/containerd/containerd.sock \
+    --node-name=worker2</code></pre>
             </div>
 
             <h1 class="text-2xl underline pt-8">
