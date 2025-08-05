@@ -61,9 +61,10 @@
                 <div class="flex space-x-4 items-center justify-center pt-2">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes Icon" class="h-6 w-auto" />
                     <svg  class="h-6 w-auto" fill="#76B900" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>NVIDIA</title><path d="M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z"/></svg>
-                    <svg class="h-6 w-auto" fill="#575757" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>containerd</title><path d="M3.629 0v24H20.37V0zM17.59 21.208H6.421V10.604h7.812V6.692h3.346v14.516zm-7.823-7.812h4.466v5.02H9.767z"/></svg>
+                    <svg  class="h-6 w-auto" fill="#F8C517" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Cilium</title><path d="M13.607 14.583h-3.215l-1.626-2.764 1.626-2.802h3.215l1.626 2.802-1.626 2.764ZM14.186 8H9.799l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L14.186 8Zm-4.387 8.4-2.2 3.813L9.799 24h4.387l2.213-3.787-2.213-3.813H9.799Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.765h-3.215l-1.627-2.765ZM9.799 0l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L14.186 0H9.799ZM8.765 3.819l1.627-2.802h3.215l1.626 2.802-1.626 2.764h-3.215L8.765 3.819Zm8.234 8.581-2.2 3.813 2.2 3.787h4.388l2.213-3.787-2.213-3.813h-4.388Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.765h-3.215l-1.627-2.765ZM16.999 4l-2.2 3.813 2.2 3.787h4.388L23.6 7.813 21.387 4h-4.388Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.764h-3.215l-1.627-2.764ZM2.599 12.4l-2.2 3.813L2.599 20h4.387l2.213-3.787L6.986 12.4H2.599Zm-1.034 3.819 1.627-2.802h3.214l1.627 2.802-1.627 2.765H3.192l-1.627-2.765ZM2.599 4l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L6.986 4H2.599ZM1.565 7.819l1.627-2.802h3.214l1.627 2.802-1.627 2.764H3.192L1.565 7.819Z"/></svg>
+                    <svg  class="h-6 w-auto" fill="#575757" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>containerd</title><path d="M3.629 0v24H20.37V0zM17.59 21.208H6.421V10.604h7.812V6.692h3.346v14.516zm-7.823-7.812h4.466v5.02H9.767z"/></svg>
                 </div>
-                <h2 class="text-sm text-black text-center">
+                <h2 class="text-sm text-black text-center pt-2">
                     3 August 2025
                 </h2>
                 <div class="pt-6">
@@ -1133,6 +1134,73 @@ version = 2
                 <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo systemctl status containerd</code></pre>
             </div>
 
+            <h1 class="text-2xl underline pt-8">
+                Setting up requirements for Cilium
+            </h1>  
+            <p class="text-base pt-4">
+                We're going to use <a href="https://cilium.io/" class="underline text-blue-500">Cilium</a> to manage networking for our pods. 
+                Its an awesome tool that uses <a href="https://ebpf.io/" class="underline text-blue-500">eBPF.</a>
+                <br>
+                <br>
+                Install Cilium CLI
+            </p>
+            <div class="relative group pt-4">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-5 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt)
+CLI_ARCH=amd64
+if [ "$(uname -m)" = "aarch64" ]; then CLI_ARCH=arm64; fi
+curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/${CILIUM_CLI_VERSION}/cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
+sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
+sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
+rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}</code></pre>
+            </div>
+
+            <p class="text-base pt-4">
+                Install Helm
+            </p>
+            <div class="relative group pt-4">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-5 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+sudo apt-get install apt-transport-https --yes
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm</code></pre>
+            </div>
+
+            <p class="text-base pt-4">
+                Add Cilium Helm repo
+            </p>
+            <div class="relative group pt-4">
+                <!-- Tooltip target -->
+                <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-5 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                    <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                    <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                </button>
+
+                <!-- Flowbite tooltip -->
+                <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+            <!-- Highlight.js code block -->
+                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm repo add cilium https://helm.cilium.io/</code></pre>
+            </div>
 
             <h1 class="text-2xl underline pt-8">
                 Configuring Kubernetes
@@ -1249,6 +1317,10 @@ version = 2
                 <br>
                 Note that the <span class="text-pink-400">--apiserver-advertise-address</span> advertises the local IP of the master node. 
                 Configure it according to your setup. 
+                <br>
+                <br>
+                Since we're using cilium, we'll use their <a href="https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/" class="underline text-blue-500">kube-proxy replacement.</a>
+                The <span class="text-pink-400">--skip-phases=addon/kube-proxy</span> argument tells kubeadm to skip the kube-proxy during the initialization. 
             </p>
 
             <div class="relative group pt-4">
@@ -1262,7 +1334,13 @@ version = 2
                 <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
 
             <!-- Highlight.js code block -->
-                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo kubeadm init --cri-socket=unix:///run/containerd/containerd.sock --pod-network-cidr=192.168.0.0/16 --node-name=master --apiserver-advertise-address=192.168.1.1</code></pre>
+                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo kubeadm init \
+	--cri-socket=unix:///run/containerd/containerd.sock \
+	--pod-network-cidr=192.168.0.0/16 \
+	--node-name=master \
+	--apiserver-advertise-address=192.168.1.1 \
+	--apiserver-cert-extra-sans=128.105.144.68 \
+	--skip-phases=addon/kube-proxy</code></pre>
             </div>
 
             <p class="text-base pt-4">
@@ -1446,7 +1524,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
             <p class="text-base pt-4">
                 Check if GPU resources are available now. 
             </p>
-            <div class="relative group">
+            <div class="relative group pt-4">
                 <!-- Tooltip target -->
                 <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-3 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
                     <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
@@ -1514,7 +1592,7 @@ spec:
             <p class="text-base pt-4">
                 View pod logs to verify
             </p>
-            <div class="relative group">
+            <div class="relative group pt-4">
                 <!-- Tooltip target -->
                 <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-3 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
                     <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
