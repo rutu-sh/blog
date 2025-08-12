@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rutu's blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../scripts/text.js"></script>
+    <script src="../scripts/flip.js"></script>
+    <link rel="stylesheet" href="../css/tailwind.css">
+    <style>
+        body {
+            background-image: radial-gradient(#eee 1px, transparent 1px);
+            background-size: 24px 24px;
+            background-position: top left;
+            font-family: monospace;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="../css/d3-stuff.css">
+  </head>
+
+  <body class="bg-white text-black">
+        <div class="pt-8 pl-16 pr-16 pb-16">
+            <section class="flex flex-col md:flex-row gap-2 pb-6"> 
+                <div class="flex flex-col md:w-1/3">
+                </div>
+                <div class="flex flex-col md:w-1/3 items-center">
+                        <a href="https://blog.rutu-sh.com">
+                            <h1 class="text-4xl">
+                                Rutu's Blog
+                            </h1>
+                        </a>                   
+                        <p class="text-green-500">
+                            <a href="https://me.rutu-sh.com" target="_blank">Website</a> | <a href="https://github.com/rutu-sh" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/in/rutu-sh/" target="_blank">LinkedIn</a> 
+                        </p>
+                </div>
+                <div class="flex flex-col md:w-1/3 items-end pr-8">
+                    <img src="../assets/normalrutu.svg" alt="Rutu" class="w-20 object-contain" />
+                </div>
+            </section>
+
+
+            <hr>
+
+            <section class="flex flex-col md:flex-row gap-2 pb-6"> 
+                <div class="flex flex-col md:w-1/5"></div> 
+                <div class="flex flex-col md:w-3/5">
+                    <h1 class="text-4xl pt-6 text-center">
+                        Setting up the Istio Service Mesh
+                    </h1>
+                    <h2 class="text-2xl text-gray-500 text-center">
+                        On-prem AI Infrastructure series
+                    </h2>
+                    <div class="flex space-x-4 items-center justify-center pt-2">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes Icon" class="h-6 w-auto" />
+                        <img src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/metallb.svg" alt="Kubernetes Icon" class="h-6 w-auto" />
+                        <svg  class="h-6 w-auto" fill="#F8C517" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Cilium</title><path d="M13.607 14.583h-3.215l-1.626-2.764 1.626-2.802h3.215l1.626 2.802-1.626 2.764ZM14.186 8H9.799l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L14.186 8Zm-4.387 8.4-2.2 3.813L9.799 24h4.387l2.213-3.787-2.213-3.813H9.799Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.765h-3.215l-1.627-2.765ZM9.799 0l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L14.186 0H9.799ZM8.765 3.819l1.627-2.802h3.215l1.626 2.802-1.626 2.764h-3.215L8.765 3.819Zm8.234 8.581-2.2 3.813 2.2 3.787h4.388l2.213-3.787-2.213-3.813h-4.388Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.765h-3.215l-1.627-2.765ZM16.999 4l-2.2 3.813 2.2 3.787h4.388L23.6 7.813 21.387 4h-4.388Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.764h-3.215l-1.627-2.764ZM2.599 12.4l-2.2 3.813L2.599 20h4.387l2.213-3.787L6.986 12.4H2.599Zm-1.034 3.819 1.627-2.802h3.214l1.627 2.802-1.627 2.765H3.192l-1.627-2.765ZM2.599 4l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L6.986 4H2.599ZM1.565 7.819l1.627-2.802h3.214l1.627 2.802-1.627 2.764H3.192L1.565 7.819Z"/></svg>
+                        <svg class="h-6 w-auto" fill="#466BB0" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Istio</title><path d="M4 21 20 21 10 24zM4 20 10 19 10 8zM11 19 20 20 11 0z"/></svg>
+                    </div>
+                    <h2 class="text-sm text-black pt-1 text-center">
+                        11 August 2025
+                    </h2>
+                    <div class="pt-6">
+                        <p class="text-base">
+                            This article series is dedicated to advancing research in Kubernetes and AI. 
+                            In this article we setup the Istio service mesh, which is required by Kubeflow.
+                            <br>
+                            <br>
+                            I found Kubeflow docs to be slightly difficult to navigate for on-prem infrastructure, especially the manifests provided by them. 
+                            Since there is no official helm chart for installing Kubeflow 
+                            and the manifests provided by them contain lots of configurations I couldn't be bothered about, 
+                            I decided to configure it by myself from the beginning. 
+                            This article provides you with the instructions to quickly setup Istio for Kubeflow. 
+                        </p>
+                    </div>
+                    
+                    <a href="#prerequisites">
+                        <h1 class="text-2xl pt-8 underline" id="prerequisites">
+                            Prerequisites
+                        </h1>
+                    </a>
+
+                    <p class="text-base pt-4">
+                        In the <a href="k8s-nvidia-gpu.html" class="text-blue-500 underline">previous article</a> 
+                        we initialized a three node kubernetes cluster with configurations that <a href="k8s-nvidia-gpu.html#master-node-setup" class="text-blue-500 underline">support Istio</a>
+                        with Cilium. This article assumes a similar setup.
+                    </p>
+                    <ul class="list-disc pt-4 pl-16 text-base">
+                        <li>Kubernetes cluster initialized with Cilium CNI</li>
+                        <li>Cilium without its Kube-proxy replacement</li>
+                        <li>Cilium initialization sets the parameters <span class="text-pink-400">socketLB.hostNamespaceOnly=true</span> and <span class="text-pink-400">cni.exclusive=false</span></li>
+                        <li>Helm installed</li>
+                        <li>View <a href="k8s-nvidia-gpu.html#master-node-setup" class="text-blue-500 underline">my setup</a> for more details.</li>
+                    </ul>
+
+                    <a href="#metallb-setup">
+                        <h1 class="text-2xl pt-8 underline" id="metallb-setup">
+                            Setting up Metallb
+                        </h1>
+                    </a>
+                    <p class="text-base pt-4">
+                        <a href="https://metallb.io/concepts/" class="text-blue-500 underline">Metallb</a> provides a network load balancer for the Kubernetes cluster. 
+                        For Cloud implementation of Kubernetes clusters like AWS's EKS, GCP's GKE, Azure's AKS, etc. the load balancer is managed by the cloud provider. 
+                        For bare metal setups, however, you'll need to setup a load balancer implementation yourself. 
+                        Metallb provides you just that. In my setup, I have three nodes on Cloudlab, and each of them has a Public IP. 
+                        With Metallb I will be able to create a LoadBalancer type service. 
+                        <br>
+                        <br>
+                        There are other ways to go around this. If you have enough network resources, you can use 
+                        <a href="https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane/" class="text-blue-500 underline">Cilium BGP.</a>
+                        If you have a setup like mine, here are the instructions to setup <a href="https://metallb.io/installation" class="text-blue-500 underline">Metallb.</a>
+                        <br>
+                        <br>
+                        Set Kube-Proxy to be in Strict ARP mode (ref: <a href="https://metallb.io/installation/#preparation" class="text-blue-500 underline">metallb</a>)
+                    </p>
+
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">kubectl get configmap kube-proxy -n kube-system -o yaml | \
+sed -e "s/strictARP: false/strictARP: true/" | \
+kubectl apply -f - -n kube-system</code></pre>
+                    </div>
+
+                    <p class="text-base pt-4">
+                        Add Metallb Helm Repo
+                    </p>
+
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm repo add metallb https://metallb.github.io/metallb</code></pre>
+                    </div>
+                    <p class="text-base pt-4">
+                        Install Metallb
+                    </p>
+
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm install metallb metallb/metallb -n metallb-system --create-namespace --wait</code></pre>
+                    </div>
+
+                    <p class="text-base pt-4">
+                        Configure Metallb IP Pool (ref: <a href="https://support.tools/install-metallb-istio-ingress-mtls-kubernetes/" class="text-blue-500 underline">https://support.tools/install-metallb-istio-ingress-mtls-kubernetes/</a>).
+                        Though this configuration uses a public IP (because I have that available on all my nodes). 
+                        If you want have a smaller setup with fewer network resources, you can also go for a private IP range (<a href="https://support.tools/install-metallb-istio-ingress-mtls-kubernetes/" class="text-blue-500 underline">this resource</a> does exactly that).
+                        <br>
+                        <br>
+                        Create a file named <span class="text-pink-400">metallb.yaml</span> with the following content: 
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-yaml bg-gray-100">apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: my-ip-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - {public_ip_worker1}
+
+---
+
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: my-l2-advertisement
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - my-ip-pool
+  nodeSelectors:
+  - matchLabels:
+      kubernetes.io/hostname: worker1</code></pre>
+                    </div>
+
+                    <p class="text-base pt-4">
+                        The first part of the yaml specifies an address pool for <span class="text-pink-400">LoadBalancer</span> services. 
+                        In this case we only have one IP address (of worker1 node) as that's the only one we want to work with for this setup. 
+                        The second part of the yaml creates a L2 Advertisement, but only on worker1 node. 
+                        This resource makes sure that the worker1 node is the only node that serves the IPs from the ip-address-pool we created. 
+                        Any request coming to the node will either served by the node itself or routed internally within the cluster 
+                        (<a href="https://metallb.universe.tf/configuration/_advanced_l2_configuration/#limiting-the-set-of-nodes-where-the-service-can-be-announced-from" class="text-blue-500 underline">ref: metallb</a>).
+                        It must be noted that this configuration is not ideal and safe; but it is simple enough to work for a small infrastructure. 
+                        <br>
+                        <br>
+                        Apply the configuration with the following command: 
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">kubectl apply -f metallb.yaml</code></pre>
+                    </div>
+
+                    <p class="text-base pt-4">
+                        It looks like this 
+                    </p>
+
+                    <div class="p-4 flex justify-center">
+                        <img src="../assets/metallbl2.png" alt="Node Topology" class="h-80 w-auto" />
+                    </div>
+                    
+                    <a href="#istio-setup">
+                        <h1 class="text-2xl pt-8 underline" id="istio-setup">
+                            Setup Istio and Istio Ingress-Gateway
+                        </h1>
+                    </a>                   
+
+                    <p class="text-base pt-4">
+                        Now we setup Istio and the support for Istio Ingress Gateway. 
+                        To keep things simple, we'll go with the 
+                        <a href="https://istio.io/latest/docs/setup/install/helm/" class="text-blue-500 underline">Helm</a> approach 
+                        instead of of the <a href="https://github.com/kubeflow/manifests?tab=readme-ov-file#istio" class="text-blue-500 underline">complicated manifests</a> provided by Kubeflow.
+                        <br>
+                        <br>
+                        Add istio repository and install istio.
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm install istio-base istio/base \
+    -n istio-system \
+    --set defaultRevision=default \
+    --create-namespace \
+    --wait</code></pre>
+                    </div>
+
+
+                    <p class="text-base pt-4">
+                        For the Sidecar mode, the Istio CNI mode is not required but it is safer this way. 
+                        This helps avoid running a privileged container on every workload.
+                        (ref: <a href="https://istio.io/latest/docs/setup/additional-setup/cni/#installing-with-helm" class="text-blue-500 underline">istio docs</a>)
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm install istio-cni istio/cni \
+    -n istio-system \
+    --wait</code></pre>
+                    </div>
+
+
+                    <p class="text-base pt-4">
+                        Next setup the istiod service. 
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm install istiod istio/istiod \
+    -n istio-system \
+    --wait</code></pre>
+                    </div>
+
+                    <p class="text-base pt-4">
+                        Install Istio Ingress Gateway
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm install istio-ingress istio/gateway \
+    -n istio-ingress \
+    --create-namespace \
+    --wait</code></pre>
+                    </div>
+
+                    <a href="#validate">
+                        <h1 class="text-2xl pt-8 underline" id="validate">
+                            Validate setup
+                        </h1>
+                    </a>
+
+                    <p class="text-base pt-4">
+                        Deploy the Httpbin application. 
+                        (ref: <a href="https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/" class="text-blue-500 underline">istio docs</a>)
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">kubectl apply -f https://gist.githubusercontent.com/rutu-sh/346e59fdc335243620c61969c5fe56fe/raw/06af833f6f19514e3f2d7ccefbf371cc5ceb1add/istio-httpbin.yaml</code></pre>
+                    </div>
+                    <p class="text-base pt-4">
+                        Create gateway and the virtual service.
+                        Note that I have set the hosts to be <span class="text-pink-400">httpbin.rutu-sh.com</span> as I own the domain. 
+                        You can add your own domain or to make it even simpler use <span class="text-pink-400">httpbin.example.com</span> as mentioned in the <a href="https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/#accessing-ingress-services" class="text-blue-500 underline">istio docs.</a>
+                        The approach mentioned in the istio docs might be easier, and you can get away with using private IP ranges. 
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">kubectl apply -f https://gist.githubusercontent.com/rutu-sh/fdb9c425301f7792d8683d3da97f09a3/raw/5f85736d85ea9b80365d2d447e876e87d3dc2f89/httpbin-gateway.yaml</code></pre>
+                    </div>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">kubectl apply -f https://gist.githubusercontent.com/rutu-sh/ad5d21d093ddf0df06bc28c063d73e2e/raw/b59f55ab3cf7802735d29376b40b9406a41d5684/httpbin-virtsvc.yaml</code></pre>
+                    </div>
+                    <p class="text-base pt-4">
+                        After this I added a Type A DNS record for <span class="text-pink-400">httpbin.rutu-sh.com</span> pointing to the public IP of the LoadBalancer service. 
+                        <br>
+                        <br>
+                        Next test with <span class="text-pink-400">curl</span>. 
+                        <br>
+                        <br>
+                        If you have a similar setup as mine, the following command will work for you. 
+                    </p>                    
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">curl -i http://httpbin.rutu-sh.com/status/200</code></pre>
+                    </div>
+                    <p class="text-base pt-4">
+                        Otherwise, if you're using private IP ranges with <span class="text-pink-400">example.com</span> domain, run the following from your master node.
+                    </p>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">export INGRESS_HOST=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export INGRESS_PORT=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+export SECURE_INGRESS_PORT=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+export TCP_INGRESS_PORT=$(kubectl -n "$INGRESS_NS" get service "$INGRESS_NAME" -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')</code></pre>
+                    </div>
+                    <div class="relative group pt-4">
+                        <!-- Tooltip target -->
+                        <button type="button" data-tooltip-target="tooltip-copy" data-tooltip-placement="top" class="copy-btn absolute top-7 right-2 z-10 bg-gray-200 text-white p-2 rounded-md hover:bg-gray-400 transition">
+                            <span id="default-icon-course-url"><svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20"><path d="M16 1h-3.278A1.992 1.992 0 0 0 11 0H7a1.993 1.993 0 0 0-1.722 1H2a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2Zm-3 14H5a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2Zm0-4H5a1 1 0 0 1 0-2h8a1 1 0 1 1 0 2Zm0-5H5a1 1 0 0 1 0-2h2V2h4v2h2a1 1 0 1 1 0 2Z"/></svg></span>
+                            <span id="success-icon-course-url" class="hidden"><svg class="w-3.5 h-3.5 text-blue-700 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/></svg></span>
+                        </button>
+
+                        <!-- Flowbite tooltip -->
+                        <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
+
+                        <!-- Highlight.js code block -->
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">curl -s -I -HHost:httpbin.example.com "http://$INGRESS_HOST:$INGRESS_PORT/status/200"</code></pre>
+                    </div>
+                    <p class="text-base pt-4">
+                        Results in the following output.
+                    </p>
+                    <div class="pt-4 bg-gray-100">
+                        <pre class="rounded-lg text-white overflow-x-auto text-sm"><code>HTTP/1.1 200 OK
+access-control-allow-credentials: true
+access-control-allow-origin: *
+content-type: text/plain; charset=utf-8
+date: Tue, 12 Aug 2025 02:46:21 GMT
+content-length: 0
+x-envoy-upstream-service-time: 20
+server: istio-envoy</code></pre>
+                    </div>
+
+
+                    <a href="#istio-mtls">
+                        <h1 class="text-2xl pt-8 underline" id="istio-mtls">
+                            Enabling mTLS with Istio
+                        </h1>
+                    </a>
+                    <p class="text-base pt-4">
+                        #TODO: check back in later 🙂 
+                    </p>
+
+                </div>
+                <div class="flex flex-col md:w-1/5"></div> 
+            </section> 
+        </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelectorAll(".copy-btn").forEach((button) => {
+            button.addEventListener("click", () => {
+                const code = button.parentElement.querySelector("code").innerText;
+                navigator.clipboard.writeText(code).then(() => {
+                const tooltip = document.getElementById("tooltip-copy");
+                tooltip.textContent = "Copied!";
+                setTimeout(() => (tooltip.textContent = "Copy to clipboard"), 1500);
+                });
+            });
+            });
+        });
+    </script>
+    <script>hljs.highlightAll();</script>
+</body>

@@ -39,7 +39,7 @@
                         </h1>
                     </a>                   
                     <p class="text-green-500 pt-1">
-                        <a href="https://me.rutu-sh.com" target="_blank">Website</a> | <a href="https://github.com/rutu-sh" target="_blank">GitHub</a> | <a href="https://www.linkedin.com/in/rutu-sh/" target="_blank">LinkedIn</a> 
+                        <a href="https://me.rutu-sh.com">Website</a> | <a href="https://github.com/rutu-sh">GitHub</a> | <a href="https://www.linkedin.com/in/rutu-sh/">LinkedIn</a> 
                     </p>
             </div>
             <div class="flex flex-col md:w-1/3 items-end pr-8">
@@ -75,9 +75,12 @@
                     </p>
                 </div>
 
-                <h1 class="text-2xl pt-8 underline">
-                    My setup
-                </h1>
+                <a href="#my-setup">
+                    <h1 class="text-2xl pt-8 underline" id="my-setup">
+                        My setup
+                    </h1>
+                </a>
+
                 
                 <p class="text-base pt-6">
                     I am using <a href="https://cloudlab.us" class="underline text-blue-500">cloudlab</a> for the purpose of this experiment. 
@@ -126,28 +129,35 @@ worker1     192.168.1.2
 worker2     192.168.1.3
                     </pre>
                 </p>
+                
+                <div class="p-4 flex justify-center">
+                    <img src="../assets/node-topology.png" alt="Metallb L2 setup" class="h-80 w-auto" />
+                </div>
 
-                <h1 class="text-2xl pt-4 underline">
-                    Installing Nvidia Drivers
-                </h1>               
+                <a href="#installing-nvidia-drivers">
+                    <h1 class="text-2xl pt-4 underline" id="installing-nvidia-drivers">
+                        Installing Nvidia Drivers
+                    </h1>               
+                </a>
+
 
                 <p class="text-base pt-4">
                     This is the first and most important step to be done on your <b>GPU nodes.</b> This helps the <span class="text-pink-400">nvidia-container-runtime</span> run containers with GPUs.
                     Using the nvidia-container-runtime is not advised for your control plane nodes, so you can skip this step for your master node. 
                     <br>
                     <br>
-                    Find the version of Nvidia drivers for your graphics card on <a href="https://www.nvidia.com/en-us/drivers/" class="underline text-blue-500" target="_blank">Nvidia's website.</a>
+                    Find the version of Nvidia drivers for your graphics card on <a href="https://www.nvidia.com/en-us/drivers/" class="underline text-blue-500">Nvidia's website.</a>
                     The driver version for my setup is <span class="text-pink-400">nvidia-driver-575.</span>
                 </p>
 
 
                 <p class="pt-4 text-base">
-                    Now run the commands as shown below (ref: <a href="https://github.com/oddmario/NVIDIA-Ubuntu-Driver-Guide" target="_blank" class="underline text-blue-500">github.com/oddmario</a>)
+                    Now run the commands as shown below (ref: <a href="https://github.com/oddmario/NVIDIA-Ubuntu-Driver-Guide" class="underline text-blue-500">github.com/oddmario</a>)
                 </p>
 
                 <p class="pt-4 text-base">
                     If you had previously installed Nvidia drivers and want to start fresh refer to 
-                    <a href="https://github.com/oddmario/NVIDIA-Ubuntu-Driver-Guide?tab=readme-ov-file#driver-installation" target="_blank" class="underline text-blue-500">step 1 on oddmario's repository.</a>
+                    <a href="https://github.com/oddmario/NVIDIA-Ubuntu-Driver-Guide?tab=readme-ov-file#driver-installation" class="underline text-blue-500">step 1 on oddmario's repository.</a>
                 </p>
 
                 <!-- Code block container -->
@@ -283,11 +293,14 @@ Sun Aug  3 17:23:37 2025
                     Now you have successfully installed Nvidia drivers. Now its time to install <b>containerd.</b>
                 </p>
 
-                <h1 class="text-2xl pt-8 underline">
-                    Installing Containerd
-                </h1>  
+                <a href="#installing-containerd">
+                    <h1 class="text-2xl pt-8 underline" id="installing-containerd">
+                        Installing Containerd
+                    </h1>  
+                </a>
+
                 <p class="text-base pt-4">
-                    Containerd for Ubuntu is managed by Docker, so we'll refer to <a href="https://docs.docker.com/engine/install/ubuntu/" target="_blank" class="underline text-blue-500">their website</a> to install containerd on the system.
+                    Containerd for Ubuntu is managed by Docker, so we'll refer to <a href="https://docs.docker.com/engine/install/ubuntu/" class="underline text-blue-500">their website</a> to install containerd on the system.
                 </p>
                 <!-- Code block container -->
                 <div class="relative group pt-4">
@@ -365,14 +378,17 @@ sudo apt-get update</code></pre>
                     <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo usermod -aG docker $USER</code></pre>
                 </div>
 
-                <h1 class="text-2xl underline pt-8">
-                    Installing Nvidia container runtime (on worker nodes)
-                </h1>  
+                <a href="#installing-nvidia-container-runtime">
+                    <h1 class="text-2xl underline pt-8" id="installing-nvidia-container-runtime">
+                        Installing Nvidia container runtime (on worker nodes)
+                    </h1>  
+                </a>
+
 
                 <p class="text-base pt-4">
-                    The <a href="https://docs.docker.com/engine/install/ubuntu/" target="_blank" class="underline text-blue-500">nvidia-container-runtime</a> 
+                    The <a href="https://docs.docker.com/engine/install/ubuntu/" class="underline text-blue-500">nvidia-container-runtime</a> 
                     is a OCI-compatible GPU container runtime that allows you to allocate GPU resources to containers. Install it only on nodes that have GPUs and nvidia-drivers installed. 
-                    This part is referenced from <a href="https://docs.docker.com/engine/install/ubuntu/" target="_blank" class="underline text-blue-500">here.</a> 
+                    This part is referenced from <a href="https://docs.docker.com/engine/install/ubuntu/" class="underline text-blue-500">here.</a> 
                 </p>
 
                 <!-- Code block container -->
@@ -428,9 +444,12 @@ sudo apt-get update</code></pre>
       libnvidia-container1=${NVIDIA_CONTAINER_TOOLKIT_VERSION}</code></pre>
                 </div>
 
-                <h1 class="text-2xl underline pt-8">
-                    Configuring Containerd
-                </h1>  
+                <a href="#configuring-containerd">
+                    <h1 class="text-2xl underline pt-8" id="configuring-containerd">
+                        Configuring Containerd
+                    </h1>  
+                </a>
+
                 <p class="text-base pt-4">
                     To get the Nvidia runtime working with Kubelet, it must be the default runtime. 
                     Now this may cause problem for other control plane components, so we recommend to have <span class="text-pink-400">runc</span> as the default runtime for control plane nodes or nodes without GPUs. 
@@ -1134,9 +1153,12 @@ version = 2
                 <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo systemctl status containerd</code></pre>
             </div>
 
-            <h1 class="text-2xl underline pt-8">
-                Setting up requirements for Cilium
-            </h1>  
+            <a href="#setting-up-requirements-for-cilium">
+                <h1 class="text-2xl underline pt-8" id="setting-up-requirements-for-cilium">
+                    Setting up requirements for Cilium
+                </h1>  
+            </a>
+
             <p class="text-base pt-4">
                 We're going to use <a href="https://cilium.io/" class="underline text-blue-500">Cilium</a> to manage networking for our pods. 
                 Its an awesome tool that uses <a href="https://ebpf.io/" class="underline text-blue-500">eBPF.</a>
@@ -1202,9 +1224,12 @@ sudo apt-get install helm</code></pre>
                 <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm repo add cilium https://helm.cilium.io/</code></pre>
             </div>
 
-            <h1 class="text-2xl underline pt-8">
-                Configuring Kubernetes
-            </h1>  
+            <a href="#configuring-kubernetes">
+                <h1 class="text-2xl underline pt-8" id="configuring-kubernetes">
+                    Configuring Kubernetes
+                </h1>  
+            </a>
+
             <p class="text-base pt-4">
                 Now lets configure the setup for Kubernetes on all our nodes.
                 <br>
@@ -1304,9 +1329,12 @@ sudo apt-get install helm</code></pre>
                 <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">sudo systemctl enable --now kubelet</code></pre>
             </div>
 
-            <h1 class="text-2xl underline pt-8">
-                Master node setup
-            </h1>  
+            <a href="#master-node-setup">
+                <h1 class="text-2xl underline pt-8" id="master-node-setup">
+                    Master node setup
+                </h1>  
+            </a>
+
             <p class="text-base pt-4">
                 Now we'll configure the master node and initialize the cluster. Run this only on the <b>master node.</b>
             </p>
@@ -1318,6 +1346,11 @@ sudo apt-get install helm</code></pre>
                 Note that the <span class="text-pink-400">--apiserver-advertise-address</span> advertises the local IP of the master node. 
                 Configure it according to your setup. 
                 Also set the <span class="text-pink-400">{public_ip}</span> if you want the Kube API Server to be publicly reachable. 
+                <br>
+                <br>
+                Ideally we'd use <a href="https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#kubeproxy-free" class="underline text-blue-500">Cilium's kubeproxy replacement</a> to instantiate our cluster.
+                However, <a href="https://docs.cilium.io/en/latest/network/servicemesh/istio/#integration-with-istio" class="underline text-blue-500">Cilium recommends not using it for Istio integration</a> (we'll need istio later to setup kubeflow), we'll skip it. 
+                If you don't plan on using Istio, and want to use Cilium's service mesh instead, you can disable Kubeproxy. 
             </p>
 
             <div class="relative group pt-4">
@@ -1375,7 +1408,10 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
                 <div id="tooltip-copy" role="tooltip" class="absolute z-20 invisible inline-block px-3 py-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">Copy to clipboard<div class="tooltip-arrow" data-popper-arrow></div></div>
 
             <!-- Highlight.js code block -->
-                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm install cilium cilium/cilium --version 1.18.0 --namespace kube-system</code></pre>
+                <pre class="rounded-lg text-white overflow-x-auto text-sm"><code class="language-bash bg-gray-100">helm install cilium cilium/cilium --version 1.18.0 \
+        --namespace kube-system \
+        --set socketLB.hostNamespaceOnly=true \
+        --set cni.exclusive=false</code></pre>
             </div>
 
             <p class="text-base pt-4">
@@ -1421,9 +1457,12 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
             </p>
 
 
-            <h1 class="text-2xl underline pt-8">
-                Worker node setup
-            </h1>  
+            <a href="#worker-node-setup">
+                <h1 class="text-2xl underline pt-8" id="worker-node-setup">
+                    Worker node setup
+                </h1>  
+            </a>
+
             <p class="text-base pt-4">
                 Now we just have to let the worker node join the Kubernetes cluster.
                 <br>
@@ -1466,9 +1505,12 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
     --node-name=worker2</code></pre>
             </div>
 
-            <h1 class="text-2xl underline pt-8">
-                Verify setup
-            </h1>  
+            <a href="#verify-setup">
+                <h1 class="text-2xl underline pt-8" id="verify-setup">
+                    Verify setup
+                </h1>  
+            </a>
+
             <p class="text-base pt-4">
                 Wait for the daemonset pods to be created in each of the nodes (except control plane nodes). Check status with following: 
             </p>
@@ -1600,9 +1642,12 @@ Test PASSED
 Done</pre>
             </div>
 
-            <h1 class="text-2xl underline pt-8">
-                Conclusion
-            </h1>
+            <a href="#conclusion">
+                <h1 class="text-2xl underline pt-8" id="conclusion">
+                    Conclusion
+                </h1>
+            </a>
+
             <p class="text-base pt-6">
                 This article is completely handcrafted, and the above commands are from days of painstaiking debugging and restarting. 
                 I have lost count of the number of times I had to restart the whole setup and initialize the cluster. 
