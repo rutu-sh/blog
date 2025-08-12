@@ -59,7 +59,7 @@
                     On-prem AI Infrastructure series
                 </h2>
                 <div class="flex space-x-4 items-center justify-center pt-2">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes Icon" class="h-6 w-auto" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes Icon" class="h-6 w-auto" title="Kubernetes"/>
                     <svg  class="h-6 w-auto" fill="#76B900" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>NVIDIA</title><path d="M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z"/></svg>
                     <svg  class="h-6 w-auto" fill="#F8C517" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Cilium</title><path d="M13.607 14.583h-3.215l-1.626-2.764 1.626-2.802h3.215l1.626 2.802-1.626 2.764ZM14.186 8H9.799l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L14.186 8Zm-4.387 8.4-2.2 3.813L9.799 24h4.387l2.213-3.787-2.213-3.813H9.799Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.765h-3.215l-1.627-2.765ZM9.799 0l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L14.186 0H9.799ZM8.765 3.819l1.627-2.802h3.215l1.626 2.802-1.626 2.764h-3.215L8.765 3.819Zm8.234 8.581-2.2 3.813 2.2 3.787h4.388l2.213-3.787-2.213-3.813h-4.388Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.765h-3.215l-1.627-2.765ZM16.999 4l-2.2 3.813 2.2 3.787h4.388L23.6 7.813 21.387 4h-4.388Zm-1.034 3.819 1.627-2.802h3.215l1.626 2.802-1.626 2.764h-3.215l-1.627-2.764ZM2.599 12.4l-2.2 3.813L2.599 20h4.387l2.213-3.787L6.986 12.4H2.599Zm-1.034 3.819 1.627-2.802h3.214l1.627 2.802-1.627 2.765H3.192l-1.627-2.765ZM2.599 4l-2.2 3.813 2.2 3.787h4.387l2.213-3.787L6.986 4H2.599ZM1.565 7.819l1.627-2.802h3.214l1.627 2.802-1.627 2.764H3.192L1.565 7.819Z"/></svg>
                     <svg  class="h-6 w-auto" fill="#575757" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>containerd</title><path d="M3.629 0v24H20.37V0zM17.59 21.208H6.421V10.604h7.812V6.692h3.346v14.516zm-7.823-7.812h4.466v5.02H9.767z"/></svg>
@@ -1564,7 +1564,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre>
                 The GPU resource should be available as <span class="text-pink-400">nvidia.com/gpu.</span>
                 <br>
                 <br>
-                Save the following as <span class="text-pink-400">pod.yaml</span> (ref: <a href="" class="underline text-blue-500">nvidia/k8s-device-plugin</a>)
+                Save the following as <span class="text-pink-400">pod.yaml</span> (ref: <a href="https://github.com/NVIDIA/k8s-device-plugin?tab=readme-ov-file#running-gpu-jobs" class="underline text-blue-500">nvidia/k8s-device-plugin</a>)
             </p>
             <div class="relative group pt-4">
                 <!-- Tooltip target -->
@@ -1655,8 +1655,19 @@ Done</pre>
                 In future articles I will cover the bugs I encountered and solved.  
                 <br>
                 <br>
-                This would not have been possible without the <a href="https://cloudlab.us" class="underline text-blue-500">cloudlab</a>.
+                This would not have been possible without <a href="https://cloudlab.us" class="underline text-blue-500">cloudlab</a>.
             </p>
+
+            <section class="flex flex-col md:flex-row gap-2 pt-16">
+                <div class="flex flex-col md:w-1/3 items-start">
+                </div>
+                <div class="flex flex-col md:w-1/3 items-center">
+                    <a href="../index.html#on-pre-ai-infra" class="underline text-blue-500 text-sm">Home</a>
+                </div>
+                <div class="flex flex-col md:w-1/3 items-end">
+                    <a href="./istio.html" class="underline text-blue-500 text-sm">Next</a>
+                </div>
+            </section>
 
 
             <!-- flex div end -->

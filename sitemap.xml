@@ -4,21 +4,21 @@
 
   <url>
     <loc>https://blog.rutu-sh.com/</loc>
-    <lastmod>2025-08-05</lastmod>
+    <lastmod>2025-08-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://blog.rutu-sh.com/blog/k8s-nvidia-gpu.html</loc>
-    <lastmod>2025-07-28</lastmod>
+    <lastmod>2025-08-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1</priority>
   </url>
 
   <url>
     <loc>https://blog.rutu-sh.com/blog/istio.html</loc>
-    <lastmod>2025-07-28</lastmod>
+    <lastmod>2025-08-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1</priority>
   </url>
